@@ -1,0 +1,24 @@
+{
+  "name": "pm2-fluentd",
+  "version": "1.0.0",
+  "description": "PM2 Fluentd Plugin",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhaodx/pm2-fluentd.git"
+  },
+  "author": "zhaodx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhaodx/pm2-fluentd/issues"
+  },
+  "homepage": "https://github.com/zhaodx/pm2-fluentd#readme",
+  "dependencies": {
+    "msgpack-lite": "^0.1.26",
+    "pm2": "^2.4.2",
+    "pmx": "^1.0.4"
+  }
+}
