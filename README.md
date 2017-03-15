@@ -6,11 +6,6 @@ PM2 Fluentd Plugin
     pm2 install zhaodx/pm2-fluentd
 ```
 
-## Update
-```javascript
-    pm2 module:update zhaodx/pm2-fluentd
-```
-
 ## Configuration 
 Replace below {{}} with your own variables.
 ```javascript
