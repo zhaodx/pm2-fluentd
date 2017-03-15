@@ -27,7 +27,8 @@ function get_fluend_sender(tag, options){
 }
 
 pm2.launchBus(function(err, bus){
-    console.log('[PM2] Log streaming started', conf.module_conf);
+    console.log(conf.module_conf);
+    console.log('[PM2] Log streaming started');
     bus.on('log:out', function (packet){
         let data = {};
         if (typeof packet.data !== "object"){
