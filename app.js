@@ -66,29 +66,16 @@ pm2.launchBus(function(err, bus){
     });
 
     bus.on('*', function(event, _data){
-        let data = {};
         if (event === 'process:event' && _data.event === 'online'){
             let msg = util.format('Process %s restarted %s',
                                 _data.process.name,
                                 _data.process.restart_time);
-            data = {
+            let data = {
                 log: msg,
                 '@timestamp': new Date().toISOString(),
                 source: 'stdout'
             };
-        }else if (typeof _data !== "object"){
-            try{
-                data = JSON.parse(_data);
-            }catch(err){
-                data = {
-                    log: _data,
-                    '@timestamp': new Date().toISOString(),
-                    source: 'stdout'
-                };
-            }
-        }else{
-            data = _data;
+            fluend_sender.emit(FLUENTD_OUTTAG, data);
         }
-        fluend_sender.emit(FLUENTD_OUTTAG, data);
     });
 });
