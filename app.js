@@ -41,6 +41,8 @@ pm2.launchBus(function(err, bus){
                     source: 'stdout'
                 };
             }
+        }else{
+            data = packet.data;
         }
         fluend_sender.emit(FLUENTD_OUTTAG, data);
     });
@@ -57,13 +59,24 @@ pm2.launchBus(function(err, bus){
                     source: 'stderr'
                 };
             }
+        }else{
+            data = packet.data;
         }
         fluend_sender.emit(FLUENTD_ERRTAG, data);
     });
 
     bus.on('*', function(event, _data){
         let data = {};
-        if (typeof _data !== "object"){
+        if (event === 'process:event' && _data.event === 'online'){
+            let msg = util.format('Process %s restarted %s',
+                                _data.process.name,
+                                _data.process.restart_time);
+            data = {
+                log: msg,
+                '@timestamp': new Date().toISOString(),
+                source: 'stdout'
+            };
+        }else if (typeof _data !== "object"){
             try{
                 data = JSON.parse(_data);
             }catch(err){
@@ -74,16 +87,7 @@ pm2.launchBus(function(err, bus){
                 };
             }
         }else{
-            if (event === 'process:event' && _data.event === 'online'){
-                let msg = util.format('Process %s restarted %s',
-                                    _data.process.name,
-                                    _data.process.restart_time);
-                data = {
-                    log: msg,
-                    '@timestamp': new Date().toISOString(),
-                    source: 'stdout'
-                };
-            }
+            data = _data;
         }
         fluend_sender.emit(FLUENTD_OUTTAG, data);
     });
